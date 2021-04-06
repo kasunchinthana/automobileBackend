@@ -28,7 +28,7 @@ export class VehicleResolver{
     }
 
     @Mutation()
-    async updateVehicle(@Args('id') id: number,
+    async updateVehicle(@Args('id') id: string,
                         @Args('first_name') first_name: string, 
                         @Args('last_name') last_name : string,
                         @Args('car_model') car_model : string) {
@@ -37,7 +37,7 @@ export class VehicleResolver{
     }
 
     @Mutation()
-    async deleteVehicle(@Args('id') id: number) {
+    async deleteVehicle(@Args('id') id: string) {
         return await this.vehicleService.destroy(id);
     }
 }

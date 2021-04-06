@@ -36,7 +36,7 @@ export class VehicleController {
         return this.vehicleServie.read(id);
     }
 
-    @Get(':carModel')
+    @Get('carModel/:carModel')
     readVehicleByModel(@Param('carModel') carModel:string){
         this.logData({ carModel });
         return this.vehicleServie.readVehicleByModel(carModel);
@@ -44,12 +44,12 @@ export class VehicleController {
 
     @Put(':id')
     @UsePipes(new ValidationPipe())
-    updateVehicleAge(@Param('id') id:number,@Body() data:Partial<VehicleDTO>){
+    updateVehicleAge(@Param('id') id:string,@Body() data:Partial<VehicleDTO>){
         return this.vehicleServie.update(id,data);
     }
 
     @Delete(':id')
-    removeVehicleAge(@Param('id') id:number){
+    removeVehicleAge(@Param('id') id:string){
         this.vehicleServie.destroy(id);
     }
     

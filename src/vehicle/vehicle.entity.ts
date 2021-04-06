@@ -4,8 +4,8 @@ import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 @Entity('vehicle') 
 export class VehicleEntity{
 //age_of_vehicle
-    @PrimaryGeneratedColumn() 
-    id: number;
+    @PrimaryGeneratedColumn('uuid') 
+    id: string;
 
     @Column() 
     first_name: string;

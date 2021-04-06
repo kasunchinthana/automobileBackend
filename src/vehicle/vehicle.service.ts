@@ -41,7 +41,7 @@ export class VehicleService {
         return vehicle;
     }
 
-    async update(id:number,data :Partial<VehicleDTO>){
+    async update(id:string,data :Partial<VehicleDTO>){
         let vehicle = await this.vehicleRepository.findOne({where :{id}});
         
         if (!vehicle) {
@@ -52,7 +52,7 @@ export class VehicleService {
         return vehicle;
     }
 
-    async destroy(id:number){
+    async destroy(id:string){
         const vehicle = await this.vehicleRepository.findOne({where :{id}});
         if (!vehicle) {
             throw new HttpException('Not found', HttpStatus.NOT_FOUND);
