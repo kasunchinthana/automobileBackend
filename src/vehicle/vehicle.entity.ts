@@ -1,34 +1,34 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+// import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
 
 
-@Entity('vehicle') 
-export class VehicleEntity{
-//age_of_vehicle
-    @PrimaryGeneratedColumn('uuid') 
-    id: string;
+// @Entity('vehicle') 
+// export class VehicleEntity{
+// //age_of_vehicle
+//     @PrimaryGeneratedColumn('uuid') 
+//     id: string;
 
-    @Column() 
-    first_name: string;
+//     @Column() 
+//     first_name: string;
 
-    @Column() 
-    last_name: string;
+//     @Column() 
+//     last_name: string;
 
-    @Column() 
-    email: string;
+//     @Column() 
+//     email: string;
 
-    @Column() 
-    car_make: string;
+//     @Column() 
+//     car_make: string;
 
-    @Column() 
-    car_model: string;
+//     @Column() 
+//     car_model: string;
 
-    @Column() 
-    vin_number: string;
+//     @Column() 
+//     vin_number: string;
 
-    @Column() 
-    manufactured_date: Date;
+//     @Column() 
+//     manufactured_date: Date;
 
-    @Column()
-    age_of_vehicle: string;
+//     @Column()
+//     age_of_vehicle: string;
 
-}
+// }

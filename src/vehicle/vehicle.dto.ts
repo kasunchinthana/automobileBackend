@@ -4,9 +4,9 @@ import {IsString} from 'class-validator';
 export class VehicleDTO{
 
     @IsString()
-    first_name :string;
+    firstName :string;
     @IsString()
-    last_name :string;
+    lastName :string;
     @IsString() 
-    car_model: string;
+    carModel: string;
 }

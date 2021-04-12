@@ -12,7 +12,7 @@ import { BullModule } from '@nestjs/bull';
 import { GraphQLModule } from '@nestjs/graphql';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(),GraphQLModule.forRoot({
+  imports: [GraphQLModule.forRoot({
     typePaths:['./**/*.graphql']
   }), BullModule.forRoot({
     redis: {
@@ -31,5 +31,6 @@ import { GraphQLModule } from '@nestjs/graphql';
   
 })
 export class AppModule {
-  constructor(private connection: Connection) {}
+
+
 }

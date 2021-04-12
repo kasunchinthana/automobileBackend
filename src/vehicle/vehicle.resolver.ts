@@ -1,13 +1,21 @@
 import { Resolver, Args, Query, Mutation } from '@nestjs/graphql'
 import { VehicleService } from './vehicle.service';
 import { VehicleDTO } from './vehicle.dto';
+import { request, gql } from 'graphql-request'
 
+const endpoint = 'http://localhost:5000/graphql';
 @Resolver('vehicle')
 export class VehicleResolver{
-    constructor(private vehicleService: VehicleService) {}    
+    constructor(private vehicleService: VehicleService) {}  
+   
     @Query()
-    async vehicles(@Args('page') page: number,@Args('newest') newest: boolean){
-      return  await   this.vehicleService.showAllVeicles(page,newest);
+    async vehicleById(@Args('id') id: number){
+        return  await   this.vehicleService.vehicleById(id);
+    };
+
+    @Query()
+    async allVehicles(@Args('carModel') carModel: string){
+      return  await   this.vehicleService.allVehicles(carModel);
     }
     @Query()
     async vehicle(@Args('id') id: string) {
@@ -20,19 +28,19 @@ export class VehicleResolver{
     }
 
     @Mutation()
-    async createVehicle(@Args('first_name') first_name: string,
-                        @Args('last_name') last_name : string,
-                        @Args('car_model') car_model : string) {
-        const data: VehicleDTO  = { first_name, last_name,car_model };
+    async createVehicle(@Args('firstName') firstName: string,
+                        @Args('lastName') lastName : string,
+                        @Args('carModel') carModel : string) {
+        const data: VehicleDTO  = { firstName, lastName,carModel };
         return await this.vehicleService.create( data);
     }
 
     @Mutation()
-    async updateVehicle(@Args('id') id: string,
-                        @Args('first_name') first_name: string, 
-                        @Args('last_name') last_name : string,
-                        @Args('car_model') car_model : string) {
-        const data: VehicleDTO = {first_name, last_name,car_model}
+    async updateVehicleById(@Args('id') id: number,
+                        @Args('firstName') firstName: string, 
+                        @Args('lastName') lastName : string,
+                        @Args('carModel') carModel : string) {
+        const data: VehicleDTO = {firstName, lastName,carModel}
         return await this.vehicleService.update(id, data);
     }
 

@@ -5,7 +5,7 @@ import { VehicleDTO } from './vehicle.dto';
 import { pipe } from 'rxjs';
 import { ValidationPipe } from 'src/utils/validation.pipe';
 
-@Controller('vehicle')
+@Controller('vehicleapi')
 export class VehicleController {
     private logger = new Logger('VehicleController');
     constructor(private vehicleServie:VehicleService){
@@ -20,7 +20,7 @@ export class VehicleController {
       
     @Get()
     showAllVeicles(@Query('page') page: number){
-        return this.vehicleServie.showAllVeicles(page);
+      //  return this.vehicleServie.showAllVeicles(page);
     }
 
     @Post()
@@ -44,7 +44,7 @@ export class VehicleController {
 
     @Put(':id')
     @UsePipes(new ValidationPipe())
-    updateVehicleAge(@Param('id') id:string,@Body() data:Partial<VehicleDTO>){
+    updateVehicleAge(@Param('id') id:number,@Body() data:Partial<VehicleDTO>){
         return this.vehicleServie.update(id,data);
     }
 

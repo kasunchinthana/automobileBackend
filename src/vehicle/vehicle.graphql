@@ -1,13 +1,13 @@
 type Vehicle {
     id:ID!
-    first_name:String!
-    last_name:String!
-    email:String!
-    car_make:String!
-    car_model:String!
-    vin_number:String!
-    manufactured_date:String!
-    age_of_vehicle:String!
+    firstName:String
+    lastName:String
+    email:String
+    carMake:String
+    carModel:String 
+    vinNumber:String
+    manufacturedDate:String
+    ageOfVehicle:String
 
 }
 
@@ -15,10 +15,14 @@ type Query{
     vehicles(page: Int, newest: Boolean):[Vehicle!]
     vehicle(id: ID!): Vehicle!
     vehicleByModel(carModel:String): Vehicle!
+    vehicleById(id:ID): Vehicle
+    # allVehicles: [Vehicle]
+    allVehicles(carModel:String):[Vehicle]
 }
 
 type Mutation {
-  createVehicle(first_name: String!, last_name: String!): Vehicle!
-  updateVehicle(id: ID!, first_name: String, last_name: String): Vehicle!
+  createVehicle(firstName: String!, lastName: String!): Vehicle!
+   updateVehicleById(id: ID!, firstName: String, lastName: String,
+    carModel: String): Vehicle!
   deleteVehicle(id: ID!): Vehicle!
 }
