@@ -27,6 +27,7 @@ export class VehicleResolver{
     return await this.vehicleService.readVehicleByModel(car_model);
     }
 
+
     @Mutation()
     async createVehicle(@Args('firstName') firstName: string,
                         @Args('lastName') lastName : string,

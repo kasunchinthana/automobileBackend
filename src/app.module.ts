@@ -7,7 +7,7 @@ import { VehicleModule } from './vehicle/vehicle.module';
 import { HttpErrorFilter } from './utils/http-error.filter';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './utils/logging.intercepter';
-import { DbprocessModule } from './dbprocess/dbprocess.module';
+import { DbprocessModule } from './dbProcess/dbprocess.module';
 import { BullModule } from '@nestjs/bull';
 import { GraphQLModule } from '@nestjs/graphql';
 

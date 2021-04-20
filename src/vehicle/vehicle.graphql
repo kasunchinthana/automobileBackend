@@ -14,7 +14,7 @@ type Vehicle {
 type Query{
     vehicles(page: Int, newest: Boolean):[Vehicle!]
     vehicle(id: ID!): Vehicle!
-    vehicleByModel(carModel:String): Vehicle!
+    vehicleByModel(carModel:String): [Vehicle]
     vehicleById(id:ID): Vehicle
     # allVehicles: [Vehicle]
     allVehicles(carModel:String):[Vehicle]
