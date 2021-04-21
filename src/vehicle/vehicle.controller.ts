@@ -39,7 +39,7 @@ export class VehicleController {
     @Get('carModel/:carModel')
     readVehicleByModel(@Param('carModel') carModel:string){
         this.logData({ carModel });
-        return this.vehicleServie.readVehicleByModel(carModel);
+        return this.vehicleServie.getVehicleByAge(carModel);
     }
 
     @Put(':id')

@@ -3,13 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { VehicleDTO } from './vehicle.dto';
 
 import { request, gql } from 'graphql-request'
+import { AppGateway } from 'src/app.gateway';
 const endpoint = 'http://localhost:5000/graphql';
 const Json2csvParser = require("json2csv").Parser;
 const fs = require("fs");
 
 @Injectable()
 export class VehicleService {
-   constructor(private httpService: HttpService) {} 
+   constructor(private httpService: HttpService,private appGateway: AppGateway) {} 
 
     async allVehicles(carModel){ 
         const  query = gql `query{
@@ -81,10 +82,10 @@ export class VehicleService {
        // return vehicle;
     }
 
-    async readVehicleByModel(car_model: string) {
+    async getVehicleByAge(vehicleAge: string) {
         const  query = gql `query vehicleQuery{
             allVehicles(filter: {
-              ageOfVehicle: {  greaterThan :"${car_model}"}
+              ageOfVehicle: {  greaterThan :"${vehicleAge}"}
             }){
               nodes {
                 nodeId
@@ -102,7 +103,7 @@ export class VehicleService {
           }`;
           
         let output = await request(endpoint,query)
-      //  console.log(output);
+        this.appGateway.server.emit('age_of_vehice', 'get datan from db');
         const json2csvParser = new Json2csvParser({ header: true});
         const csv = json2csvParser.parse(output.allVehicles.nodes);
       //  console.log("ddddd!");
@@ -117,7 +118,7 @@ export class VehicleService {
        
         const  query = gql `mutation updateVehicleById{
             updateVehicleById (input:{
-                id:${id},vehiclePatch:{firstName:"${data.firstName}"}
+                id:"${id}",vehiclePatch:{firstName:"${data.firstName}"}
                 }){
                     vehicle{
                     nodeId
@@ -144,12 +145,27 @@ export class VehicleService {
     }
 
     async destroy(id:string){
-        return this.httpService.get('http://localhost:5000/graphiql');
-        // const vehicle = await this.vehicleRepository.findOne({where :{id}});
-        // if (!vehicle) {
-        //     throw new HttpException('Not found', HttpStatus.NOT_FOUND);
-        // }
-        // await this.vehicleRepository.delete({id})
-        // return {deleted:true};
+        const  query = gql`mutation deleteVehicle{
+            deleteVehicleById(input:{ id: "${id}" }){
+              vehicle{
+                nodeId
+                id
+                firstName
+                lastName
+                email
+                carMake
+                carModel
+                vinNumber
+                manufacturedDate
+                ageOfVehicle
+              }
+            }
+          }`;
+          console.log(endpoint);
+          console.log(query);
+         let output = await request(endpoint,query)
+        
+         console.log("output ",output);
+         return output.deleteVehicleById.vehicle;
     }
 }

@@ -23,8 +23,8 @@ export class VehicleResolver{
     }
 
     @Query()
-    async vehicleByModel(@Args('carModel') car_model: string) {
-    return await this.vehicleService.readVehicleByModel(car_model);
+    async getVehicleByAge(@Args('vehicleAge') vehicleAge: string) {
+    return await this.vehicleService.getVehicleByAge(vehicleAge);
     }
 
 
