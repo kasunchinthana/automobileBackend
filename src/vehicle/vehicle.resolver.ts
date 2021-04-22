@@ -14,8 +14,10 @@ export class VehicleResolver{
     };
 
     @Query()
-    async allVehicles(@Args('carModel') carModel: string){
-      return  await   this.vehicleService.allVehicles(carModel);
+    async allVehicles(@Args('carModel') carModel: string,
+                    @Args('first') first: number,
+                    @Args('after') after: string){
+      return  await   this.vehicleService.allVehicles(carModel,first, after);
     }
     @Query()
     async vehicle(@Args('id') id: string) {
