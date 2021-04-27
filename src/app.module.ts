@@ -10,7 +10,6 @@ import { LoggingInterceptor } from './utils/logging.intercepter';
 import { DbprocessModule } from './dbProcess/dbprocess.module';
 import { BullModule } from '@nestjs/bull';
 import { GraphQLModule } from '@nestjs/graphql';
-import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [GraphQLModule.forRoot({
@@ -20,7 +19,7 @@ import { EventsModule } from './events/events.module';
       host: 'localhost',
       port: 6379,
     },
-  }),VehicleModule, DbprocessModule,EventsModule],
+  }),VehicleModule, DbprocessModule],
   controllers: [AppController],
   providers: [AppService,{
     provide: APP_FILTER,

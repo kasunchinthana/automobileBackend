@@ -3,11 +3,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { VehicleDTO } from './vehicle.dto';
 
 import { request, gql } from 'graphql-request'
-//import { AppGateway } from 'src/app.gateway';
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { EventsGateway } from '../events/events.gateway';
 const endpoint = 'http://localhost:5000/graphql';
 const Json2csvParser = require("json2csv").Parser;
 const fs = require("fs");
@@ -15,7 +13,7 @@ const path = require('path')
 
 @Injectable()
 export class VehicleService {
-   constructor(private eventsGateway: EventsGateway,private httpService: HttpService,@InjectQueue('downloadCsv') private  csvDownloadQueue: Queue) {} 
+   constructor(private httpService: HttpService,@InjectQueue('downloadCsv') private  csvDownloadQueue: Queue) {} 
 
     async allVehicles(carModel,first, after){ 
         const  query = gql `{
@@ -85,7 +83,7 @@ export class VehicleService {
         return this.httpService.get('http://localhost:5000/graphiql');
         
     }
-    @UseInterceptors(FileInterceptor("file", { dest: "./uploads" }))
+    
     async getVehicleByAge(vehicleAge: string) {
         const  query = gql `query vehicleQuery{
             allVehicles(filter: {
@@ -107,19 +105,8 @@ export class VehicleService {
           }`;
           
         let output = await request(endpoint,query)
-        this.eventsGateway.server.emit('emitmsg', 'get datan from db');
-        const job = await this.csvDownloadQueue.add('downloadCsv',
-        {
-          file: output.allVehicles.nodes
-        });
-         this.eventsGateway.server.emit('age_of_vehice', 'get datan from db');
-         this.eventsGateway.sendToAll("csvdownload");
-        //  @Post()
-        //  @HttpCode(200)
-        //  sendAlertToAll(@Body() dto: { message: string }) {
-        //      this.alertGateway.sendToAll(dto.message);
-        //      return dto;
-        //  }
+       
+        return output.allVehicles.nodes;
     }
 
     async update(id:number,data :Partial<VehicleDTO>){

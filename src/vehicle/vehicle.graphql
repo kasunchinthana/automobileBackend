@@ -34,6 +34,6 @@ type Query{
 
 type Mutation {
   createVehicle(firstName: String!, lastName: String!): Vehicle!
-   updateVehicleById(id: ID!, firstName: String, lastName: String, carModel: String): Vehicle!
+  updateVehicleById(id: ID!, firstName: String, lastName: String, carModel: String): Vehicle!
   deleteVehicle(id: ID!): Vehicle
 }
