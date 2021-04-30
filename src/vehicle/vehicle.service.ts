@@ -1,22 +1,17 @@
 import { Injectable, HttpException, HttpStatus, HttpService, UseInterceptors } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { VehicleDTO } from './vehicle.dto';
 
 import { request, gql } from 'graphql-request'
 import { InjectQueue } from '@nestjs/bull';
 import { Queue } from 'bull';
-import { FileInterceptor } from '@nestjs/platform-express';
 const endpoint = 'http://localhost:5000/graphql';
-const Json2csvParser = require("json2csv").Parser;
-const fs = require("fs");
-const path = require('path')
 
 @Injectable()
 export class VehicleService {
-   constructor(private httpService: HttpService,@InjectQueue('downloadCsv') private  csvDownloadQueue: Queue) {} 
+  constructor(private httpService: HttpService, @InjectQueue('downloadCsv') private csvDownloadQueue: Queue) { }
 
-    async allVehicles(carModel,first, after){ 
-        const  query = gql `{
+  async allVehicles(carModel, first, after) {
+    const query = gql`{
           allVehicles(first: ${first}, after:${after}
             , filter: {carModel: {startsWith: "${carModel}"}}) {
               pageInfo {
@@ -39,19 +34,12 @@ export class VehicleService {
             }
           }
         `;
-        console.log(endpoint);
-        console.log(query);
-        
-        let output = await request(endpoint,query)
-        
-       //console.log("output ",output.allVehicles);
+    let output = await request(endpoint, query)
+    return output.allVehicles;
+  };
 
-        return output.allVehicles;
-              
-    };
-          
-    async vehicleById(id){
-        const  query = gql `query{
+  async vehicleById(id) {
+    const query = gql`query{
              vehicleById(id:"${id}") {
                 nodeId
                id
@@ -65,27 +53,21 @@ export class VehicleService {
                ageOfVehicle
          }
         }`;
-        console.log(endpoint);
-        console.log(query);
-        
-        let output = await request(endpoint,query)
-   
-        console.log("output ",output.vehicleById);
+    let output = await request(endpoint, query)
+    return output.vehicleById;
+  }
 
-        return output.vehicleById;
-    }
+  async create(data: VehicleDTO) {
+    return this.httpService.get(endpoint);
+  }
 
-    async create(data: VehicleDTO ){
-        return this.httpService.get('http://localhost:5000/graphiql');
-    }
+  async read(id: string) {
+    return this.httpService.get(endpoint);
 
-    async read(id: string){
-        return this.httpService.get('http://localhost:5000/graphiql');
-        
-    }
-    
-    async getVehicleByAge(vehicleAge: string) {
-        const  query = gql `query vehicleQuery{
+  }
+
+  async getVehicleByAge(vehicleAge: string) {
+    const query = gql`query vehicleQuery{
             allVehicles(filter: {
               ageOfVehicle: {  greaterThan :"${vehicleAge}"}
             }){
@@ -103,15 +85,16 @@ export class VehicleService {
               }
             }
           }`;
-          
-        let output = await request(endpoint,query)
-       
-        return output.allVehicles.nodes;
-    }
+    let output = await request(endpoint, query)
+    const job = await this.csvDownloadQueue.add('downloadCsv',
+      {
+        file: output.allVehicles.nodes
+      });
+    // return output.allVehicles.nodes;
+  }
 
-    async update(id:number,data :Partial<VehicleDTO>){
-       
-        const  query = gql `mutation updateVehicleById{
+  async update(id: number, data: Partial<VehicleDTO>) {
+    const query = gql`mutation updateVehicleById{
             updateVehicleById (input:{
                 id:"${id}",vehiclePatch:{firstName:"${data.firstName}"}
                 }){
@@ -126,21 +109,15 @@ export class VehicleService {
                     vinNumber
                     manufacturedDate
                     ageOfVehicle
-                    }
-                    
-                }          
-            
+                    }                  
+                }           
             }`;
-         console.log(endpoint);
-         console.log(query);
-        let output = await request(endpoint,query)
-       
-        console.log("output ",output);
-        return output.updateVehicleById.vehicle;
-    }
+    let output = await request(endpoint, query)
+    return output.updateVehicleById.vehicle;
+  }
 
-    async destroy(id:string){
-        const  query = gql`mutation deleteVehicle{
+  async destroy(id: string) {
+    const query = gql`mutation deleteVehicle{
             deleteVehicleById(input:{ id: "${id}" }){
               vehicle{
                 nodeId
@@ -156,11 +133,7 @@ export class VehicleService {
               }
             }
           }`;
-          console.log(endpoint);
-          console.log(query);
-         let output = await request(endpoint,query)
-        
-         console.log("output ",output);
-         return output.deleteVehicleById.vehicle;
-    }
+    let output = await request(endpoint, query)
+    return output.deleteVehicleById.vehicle;
+  }
 }
