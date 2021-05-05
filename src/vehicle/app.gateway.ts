@@ -14,11 +14,8 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
 
     handleConnection(client: Socket, ...args: any[]) {
         this.logger.log(`Client handle connect: ${client.id}`);
-        //this.eventsGateway.server.emit('alertToClient', 'get datan from db');
-        this.server.emit('alertToClient', "msg");
     }
     handleDisconnect(client: Socket) {
-        // this.logger.log('handleDisconnect:   :${client.id}');
         this.logger.log(`Client handleDisconnect: ${client.id} ${client.listeners}`);
     }
 
@@ -32,6 +29,6 @@ export class AppGateway implements OnGatewayInit, OnGatewayConnection, OnGateway
 
     sendToAll(msg: string) {
         this.logger.log(msg);
-        this.server.emit('alertToClient', msg);
+        this.server.emit('csv downloaded', msg);
     }
 }

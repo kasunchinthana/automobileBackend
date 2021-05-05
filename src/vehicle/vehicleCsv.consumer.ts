@@ -9,7 +9,7 @@ const fs = require("fs");
 @Processor('downloadCsv')
 export class VehicleCsvConsumer {
     private readonly logger = new Logger(VehicleCsvConsumer.name);
-    
+
     constructor(private eventsGateway: AppGateway) { }
 
     @Process('downloadCsv')
@@ -21,6 +21,6 @@ export class VehicleCsvConsumer {
             console.log(error);
         });
         //return job.data.allVehicles.nodes
-        return this.eventsGateway.sendToAll("alertToClient");
+        return this.eventsGateway.sendToAll("csv downloaded");
     }
 }

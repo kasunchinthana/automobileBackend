@@ -3,7 +3,7 @@ import { UpdateDateColumn } from 'typeorm';
 import { VehicleService } from './vehicle.service';
 import { VehicleDTO } from './vehicle.dto';
 import { pipe } from 'rxjs';
-import { ValidationPipe } from 'src/utils/validation.pipe';
+import { ValidationPipe } from '../utils/validation.pipe';
 
 @Controller('vehicleapi')
 export class VehicleController {
@@ -21,7 +21,6 @@ export class VehicleController {
 
     @Get()
     showAllVeicles(@Query('page') page: number) {
-        //  return this.vehicleServie.showAllVeicles(page);
     }
 
     @Post()
