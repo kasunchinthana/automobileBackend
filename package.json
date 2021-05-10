@@ -52,6 +52,8 @@
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.6",
     "socket.io": "^2.3.0",
+    "socketcluster-client": "^16.0.2",
+    "socketcluster-server": "^16.0.1",
     "transformer": "^1.2.8",
     "typeorm": "^0.2.31",
     "validator": "^13.5.2"
