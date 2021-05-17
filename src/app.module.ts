@@ -7,7 +7,6 @@ import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 import { LoggingInterceptor } from './utils/logging.intercepter';
 import { BullModule } from '@nestjs/bull';
 import { GraphQLModule } from '@nestjs/graphql';
-import { SocketModule } from './socket/socket.module';
 
 @Module({
   imports: [GraphQLModule.forRoot({
@@ -17,7 +16,7 @@ import { SocketModule } from './socket/socket.module';
       host: 'localhost',
       port: 6379,
     },
-  }), VehicleModule, SocketModule
+  }), VehicleModule, 
   ],
   controllers: [AppController],
   providers: [AppService, {
